@@ -32,7 +32,7 @@
             </div>
         </div>
         <!-- Main Content -->
-        <div class="main-content p-4">
+        <div class="dashboard">
             <div id="content">
                 <h1 class="text-4xl font-bold text-blue-700 mb-8">Dashboard</h1>
                 <div class="flex justify-between mb-8">
@@ -53,11 +53,25 @@
                 </div>
                 <h2 class="text-3xl font-bold text-blue-700 mb-4">Sales</h2>
                 <div class="flex mb-8">
-                    <button class="btn-active">Daily</button>
-                    <button class="btn">Weekly</button>
-                    <button class="btn">Monthly</button>
-                    <button class="btn btn-rounded">Yearly</button>
+                    <button class="btnd-active">Daily</button>
+                    <button class="btnd">Weekly</button>
+                    <button class="btnd">Monthly</button>
+                    <button class="btnd btnd-rounded">Yearly</button>
                 </div>
+                <h2 class="text-3xl font-bold text-blue-700 mb-4">Sales by Product</h2>
+                <div class="flex mb-8">
+                    <button class="btnd-active">Daily</button>
+                    <button class="btnd">Weekly</button>
+                    <button class="btnd">Monthly</button>
+                    <button class="btnd btnd-rounded">Yearly</button>
+                </div>
+                <div class="flex justify-between">
+                    <div class="chart">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                    <div class="chart">
+                        <canvas id="salesByProductChart"></canvas>
+                    </div>    
             </div>
         </div>
     </div>
