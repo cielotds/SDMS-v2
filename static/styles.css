@@ -12,7 +12,7 @@
 
 .card {
     background-color: #83d7e6; /* Tailwind's cyan-500 */
-    color: white;
+    color: #0E7490;
     text-align: center;
     padding: 2rem;
     border-radius: 0.5rem;
@@ -21,12 +21,13 @@
 }
 
 .btn {
-    background-color: #06B6D4; /* Tailwind's cyan-500 */
+    background-color:transparent; /* Tailwind's cyan-700 */
     color: white;
     font-weight: bold;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
     margin-left: -1px; /* To avoid double borders */
+    transition: background-color 0.3s;
 }
 
 .btn-active {
@@ -38,5 +39,9 @@
 }
 
 .btn-rounded {
-    border-radius: 0.5rem 0.5rem 0.5rem 0.5rem; /* Rounded right */
+    border-radius: 0.5rem 0.5rem 0.5rem 0.5rem; /* Rounded corners */
+}
+
+.btn:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Lighten on hover */
 }
