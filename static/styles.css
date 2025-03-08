@@ -1,0 +1,42 @@
+.sidebar {
+    width: 20%;
+    background-color: #1E3A8A; /* Tailwind's blue-700 */
+    height: 100vh;
+    padding: 1rem;
+}
+
+.main-content {
+    width: 75%;
+    padding: 2rem;
+}
+
+.card {
+    background-color: #83d7e6; /* Tailwind's cyan-500 */
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    width: 30%;
+    margin: 0 0.5rem;
+}
+
+.btn {
+    background-color: #06B6D4; /* Tailwind's cyan-500 */
+    color: white;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    margin-left: -1px; /* To avoid double borders */
+}
+
+.btn-active {
+    background-color: #67E8F9; /* Tailwind's cyan-200 */
+    color: #0E7490; /* Tailwind's cyan-700 */
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+}
+
+.btn-rounded {
+    border-radius: 0.5rem 0.5rem 0.5rem 0.5rem; /* Rounded right */
+}
