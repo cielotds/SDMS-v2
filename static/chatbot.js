@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="chatbox-body">
                         <p>"Welcome! How can I assist you?</p>
                     </div>
-                    <input type="text" id="chatInput" placeholder="Type a message..." /> 
+                    <input type="text" id="chatInput" placeholder="Type a message..." /> <button id="sendButton">Send</button>
                 </div>
             `;
             document.body.appendChild(chatbox);
@@ -21,6 +21,27 @@ document.addEventListener('DOMContentLoaded', function() {
             // Close button functionality
             document.getElementById('closeChatbox').addEventListener('click', function() {
                 document.getElementById('chatboxContainer').remove();
+            });
+
+            // Send button functionality    
+            document.getElementById('sendButton').addEventListener('click', function() {
+                let chatInput = document.getElementById('chatInput');
+                let chatboxBody = document.querySelector('.chatbox-body');
+                let userMessage = chatInput.value;
+                chatInput.value = '';
+
+                // Display user message
+                let userMessageElement = document.createElement('p');
+                userMessageElement.className = 'user-message';
+                userMessageElement.innerHTML = userMessage;
+                chatboxBody.appendChild(userMessageElement);
+
+                // Display chatbot response
+                let chatbotResponse = getChatbotResponse(userMessage);
+                let chatbotResponseElement = document.createElement('p');
+                chatbotResponseElement.className = 'chatbot-response';
+                chatbotResponseElement.innerHTML = chatbotResponse;
+                chatboxBody.appendChild(chatbotResponseElement);
             });
         }
     }

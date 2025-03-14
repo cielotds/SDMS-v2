@@ -132,7 +132,7 @@
 }
 
 #chatInput {
-    width: 100%;
+    width: 80%;
     padding: 5px;
     border: 1px solid #ccc;
 }
@@ -163,9 +163,32 @@
     background-color: #cc0000; /* Darker red on hover */
 }
 
+#sendButton { /* Red background */
+    color: #0077b6; /* White text *//* Remove default border */
+    font-size: 20px; /* Readable font size */
+    font-weight: bold; /* Make it stand out */
+    padding: 6px 10px; /* Proper padding */
+    cursor: pointer; /* Pointer cursor on hover */
+    position: absolute; /* Position at top right */
+    left: 230px;
+    width: 30px;
+    height: 30px;
+    bottom: 20px;
+    display: flex;
+    transition: background-color 0.3s ease;
+}
+
 .fingenius-chat {
     background-color: #0078ff; /* Button color */
     color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    margin-left: 10px; /* Space between message box and button */
+}
+
+#userMessage {
+    background-color: #caf0f8; /* Button color */
+    color: #0077b6;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
     margin-left: 10px; /* Space between message box and button */
