@@ -6,14 +6,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const weeklyBtnd = document.getElementById('weeklyBtnd');
     const monthlyBtnd = document.getElementById('monthlyBtnd');
     const yearlyBtnd = document.getElementById('yearlyBtnd');
+    const chatbotBtn = document.getElementById('chatbotBtn');
 
     // Function to set active button
     function setActiveButton(activeButton) {
         // Remove active class from both buttons
         dashboardBtn.classList.remove('btn-active');
         forecastBtn.classList.remove('btn-active');
-        
-        
         
         // Add active class to the clicked button
         activeButton.classList.add('btn-active');
@@ -69,14 +68,42 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
 
         <div class="fingenius">
-        <h2 class="text-3xl font-bold text-blue-700 mb-4">FinGenius</h2>
         <img src="static/images/FinGenius.png" alt="FinGenius Logo" class="logo"> <!-- Replace with your logo path -->
+        <h2 class="text-3xl font-bold text-blue-700 mr-4">FinGenius</h2>
         <div class="message-box">
             <p>Welcome to FinGenius! Your financial insights start here.</p>
         </div>
-    </div>
+            <button id="chatbotBtn" class="btn-chat">Chat with FinGenius</button> <!-- Chat button -->
+        </div>
             
         `;
+    }
+
+    // Function to create the chatbox
+    function createChatbox() {
+        if (!document.getElementById('chatboxContainer')) {
+            let chatbox = document.createElement('div');
+            chatbox.id = 'chatboxContainer';
+            chatbox.innerHTML = `
+                <div id="chatbox" class="chatbox">
+                    <div class="chatbox-header">
+                        <img src="static/images/FinGenius.png" alt="FinGenius Logo" class="logo">
+                        <h2 class="text-3xl font-bold text-white-700 mr-4 mt-3">FinGenius</h2>
+                        <button id="closeChatbox">X</button>
+                    </div>
+                    <div class="chatbox-body">
+                        <p>Welcome! How can I assist you?</p>
+                    </div>
+                    <input type="text" id="chatInput" placeholder="Type a message..." />
+                </div>
+            `;
+            document.body.appendChild(chatbox);
+
+            // Close button functionality
+            document.getElementById('closeChatbox').addEventListener('click', function() {
+                document.getElementById('chatboxContainer').remove();
+            });
+        }
     }
 
     // Event listeners for button clicks
@@ -88,27 +115,33 @@ document.addEventListener('DOMContentLoaded', function() {
     forecastBtn.addEventListener('click', function() {
         setActiveButton(forecastBtn);
         renderForecast();
- });
+    });
 
- dailyBtnd.addEventListener('click', function() {
-    setActiveButton(dailyBtnd);
-    //lalagyan ng render function
-});
+    dailyBtnd.addEventListener('click', function() {
+        setActiveButton(dailyBtnd);
+        // Add render function for daily
+    });
 
-weeklyBtnd.addEventListener('click', function() {
-    setActiveButton(weeklyBtnd);
-    
-});
+    weeklyBtnd.addEventListener('click', function() {
+        setActiveButton(weeklyBtnd);
+        // Add render function for weekly
+    });
 
-monthlyBtnd.addEventListener('click', function() {
-    setActiveButton(monthlyBtnd);
-    
-});
+    monthlyBtnd.addEventListener('click', function() {
+        setActiveButton(monthlyBtnd);
+        // Add render function for monthly
+    });
 
-yearlyBtnd.addEventListener('click', function() {
-    setActiveButton(yearlyBtnd);
-    
-});
+    yearlyBtnd.addEventListener('click', function() {
+        setActiveButton(yearlyBtnd);
+        // Add render function for yearly
+    });
+
+    // Event listener for chatbot button
+    chatbotBtn.addEventListener('click', function() {
+        createChatbox(); // Directly call createChatbox
+    });
+
     // Initial render
     renderDashboard(); // Optionally render the dashboard by default on page load
 });
