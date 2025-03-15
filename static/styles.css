@@ -1,7 +1,7 @@
 .sidebar {
     width: 20%;
     background-color: #1E3A8A; /* Tailwind's blue-700 */
-    height: 100vh;
+    height: 200vh;
     padding: 1rem;
 }
 
@@ -59,7 +59,7 @@
     border-radius: 0.5rem 0.5rem 0.5rem 0.5rem; /* Rounded corners */
 }
 
-.btn:hover {
+.btn:hover, .btnd:hover {
     background-color: rgba(255, 255, 255, 0.1); /* Lighten on hover */
 }
 
