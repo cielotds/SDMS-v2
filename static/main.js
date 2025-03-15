@@ -81,9 +81,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to create the chatbox
     function createChatbox() {
-        if (!document.getElementById('chatboxContainer')) {
+        if (!document.getElementById('chatbox')) {
             let chatbox = document.createElement('div');
-            chatbox.id = 'chatboxContainer';
+            chatbox.id = 'chatbox';
             chatbox.innerHTML = `
                 <div id="chatbox" class="chatbox">
                     <div class="chatbox-header">
