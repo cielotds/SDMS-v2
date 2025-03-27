@@ -118,21 +118,25 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     dailyBtnd.addEventListener('click', function() {
+        resetButtonStyles();
         setActiveButton(dailyBtnd);
         // Add render function for daily
     });
 
     weeklyBtnd.addEventListener('click', function() {
+        resetButtonStyles();
         setActiveButton(weeklyBtnd);
         // Add render function for weekly
     });
 
     monthlyBtnd.addEventListener('click', function() {
+        resetButtonStyles();
         setActiveButton(monthlyBtnd);
         // Add render function for monthly
     });
 
     yearlyBtnd.addEventListener('click', function() {
+        resetButtonStyles();
         setActiveButton(yearlyBtnd);
         // Add render function for yearly
     });
