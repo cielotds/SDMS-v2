@@ -15,14 +15,37 @@
     padding: 2rem;
 }
 
+.real-time {
+    display: flex;
+    gap: 20px; 
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 2rem;
+}
+
 .card {
-    background-color: #83d7e6; /* Tailwind's cyan-500 */
-    color: #0E7490;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    padding: 2rem;
-    border-radius: 0.5rem;
-    width: 30%;
-    margin: 0 0.5rem;
+    width: 275px; /* Fixed width */
+    min-height: 150px; /* Ensure uniform height */
+}
+
+.text-lg {
+    font-size: 1.2rem; /* Adjust label size */
+    font-weight: 600;
+    color: #0E7490;
+}
+
+.text-6xl {
+    color: #0E7490;
+    font-size: 1rem; /* Adjust number size */
+    font-weight: bold;
+    white-space: nowrap; /* Prevents text from wrapping */
+    overflow: hidden; /* Hides overflow text */
+    
 }
 
 .btn {

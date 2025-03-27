@@ -22,36 +22,37 @@ document.addEventListener('DOMContentLoaded', function() {
     function renderDashboard() {
         document.getElementById('content').innerHTML = `
             <h1 class="text-4xl font-bold text-blue-700 mb-8">Dashboard</h1>
-            <div class="flex justify-between mb-8">
-                <div class="card">
-                    <div class="text-lg">Today</div>
-                    <div class="text-6xl font-bold">n</div>
-                    <div class="text-green-500 mt-2">+20%</div>
+                <div class="real-time">
+                    <div class="card">
+                        <div class="text-lg">Today</div>
+                        <div class="text-6xl font-bold" id="today-total"></div>
+                        <div class="mt-2" id="today-percent"></div>
+                    </div>
+                    <div class="card">
+                        <div class="text-lg">Yesterday</div>
+                        <div class="text-6xl font-bold" id="yesterday-total"></div>
+                    </div>
+                    <div class="card">
+                        <div class="text-lg">Average</div>
+                        <div class="text-6xl font-bold" id="average-total"></div>
+                        <div class="mt-2" id="average-percent"></div>
+                    </div>
                 </div>
-                <div class="card">
-                    <div class="text-lg">Yesterday</div>
-                    <div class="text-6xl font-bold">n</div>
+                
+                <h2 class="text-3xl font-bold text-blue-700 mb-4">Sales</h2>
+                <div class="flex mb-8">
+                    <button class="btnd-active">Daily</button>
+                    <button class="btnd">Weekly</button>
+                    <button class="btnd">Monthly</button>
+                    <button class="btnd btnd-rounded">Yearly</button>
                 </div>
-                <div class="card">
-                    <div class="text-lg">Average</div>
-                    <div class="text-6xl font-bold">n</div>
-                    <div class="text-red-500 mt-2">-50%</div>
+                <h2 class="text-3xl font-bold text-blue-700 mb-4">Sales by Product</h2>
+                <div class="flex mb-8">
+                    <button class="btnd-active">Daily</button>
+                    <button class="btnd">Weekly</button>
+                    <button class="btnd">Monthly</button>
+                    <button class="btnd btnd-rounded">Yearly</button>
                 </div>
-            </div>
-            <h2 class="text-3xl font-bold text-blue-700 mb-4">Sales</h2>
-            <div class="flex mb-8">
-                <button class="btnd-active">Daily</button>
-                <button class="btnd">Weekly</button>
-                <button class="btnd">Monthly</button>
-                <button class="btnd btnd-rounded">Yearly</button>
-            </div>
-            <h2 class="text-3xl font-bold text-blue-700 mb-4">Sales by Product</h2>
-            <div class="flex mb-8">
-                <button class="btnd-active">Daily</button>
-                <button class="btnd">Weekly</button>
-                <button class="btnd">Monthly</button>
-                <button class="btnd btnd-rounded">Yearly</button>
-            </div>
         `;
     }
 
@@ -78,6 +79,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
         `;
     }
+
+    
 
     // Function to create the chatbox
     function createChatbox() {
