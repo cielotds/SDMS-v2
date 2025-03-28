@@ -46,6 +46,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     <button class="btnd">Monthly</button>
                     <button class="btnd btnd-rounded">Yearly</button>
                 </div>
+                <div class="chart">
+                    <canvas id="dailySalesChart"></canvas>
+                </div>
+                <div class="chart" style="display: none;" id="weeklySalesChartContainer">
+                    <canvas id="weeklySalesChart"></canvas>
+                </div>
+                <div class="chart" style="display: none;" id="monthlySalesChartContainer">
+                    <canvas id="monthlySalesChart"></canvas>
+                </div>
+                <div class="chart" style="display: none;" id="yearlySalesChartContainer">
+                    <canvas id="yearlySalesChart"></canvas>
+                </div>
                 <h2 class="text-3xl font-bold text-blue-700 mb-4">Sales by Product</h2>
                 <div class="flex mb-8">
                     <button class="btnd-active">Daily</button>
@@ -53,6 +65,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     <button class="btnd">Monthly</button>
                     <button class="btnd btnd-rounded">Yearly</button>
                 </div>
+                <div class="flex justify-between">
+                    <div class="chart">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                    <div class="chart">
+                        <canvas id="salesByProductChart"></canvas>
+                    </div> 
         `;
     }
 

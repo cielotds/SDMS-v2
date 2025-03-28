@@ -46,6 +46,97 @@ def get_realtime_data():
         "percent_avg": f"{round(percent_change_avg, 2)}%"
     })
 
+@app.route('/api/daily-sales-data', methods=['GET'])
+def get_daily_sales_data():
+    con = get_con()
+    cursor = con.cursor(dictionary=True)
+
+    today = datetime.today().date()
+    past_week = today - timedelta(days=7)
+
+    # Get daily sales data for the past 7 days
+    cursor.execute("SELECT DATE(date) AS date, SUM(total_price) AS total FROM orders WHERE DATE(date) BETWEEN %s AND %s GROUP BY DATE(date)", (past_week, today))
+    daily_sales_data = cursor.fetchall()
+
+    con.close()
+
+    labels = [data['date'].strftime('%Y-%m-%d') for data in daily_sales_data]
+    values = [data['total'] for data in daily_sales_data]
+
+    return jsonify({
+        "labels": labels,
+        "values": values
+    })
+
+
+@app.route('/api/weekly-sales-data', methods=['GET'])
+def get_weekly_sales_data():
+    con = get_con()
+    cursor = con.cursor(dictionary=True)
+
+    today = datetime.today().date()
+    past_month = today - timedelta(days=30)
+
+    # Get weekly sales data for the past 30 days
+    cursor.execute("SELECT WEEK(date) AS week, SUM(total_price) AS total FROM orders WHERE DATE(date) BETWEEN %s AND %s GROUP BY WEEK(date)", (past_month, today))
+    weekly_sales_data = cursor.fetchall()
+
+    con.close()
+
+    labels = [f"Week {data['week']}" for data in weekly_sales_data]
+    values = [data['total'] for data in weekly_sales_data]
+
+    return jsonify({
+        "labels": labels,
+        "values": values
+    })
+
+
+@app.route('/api/monthly-sales-data', methods=['GET'])
+def get_monthly_sales_data():
+    con = get_con()
+    cursor = con.cursor(dictionary=True)
+
+    today = datetime.today().date()
+    past_year = today - timedelta(days=365)
+
+    # Get monthly sales data for the past 365 days
+    cursor.execute("SELECT MONTH(date) AS month, SUM(total_price) AS total FROM orders WHERE DATE(date) BETWEEN %s AND %s GROUP BY MONTH(date)", (past_year, today))
+    monthly_sales_data = cursor.fetchall()
+
+    con.close()
+
+    labels = [f"Month {data['month']}" for data in monthly_sales_data]
+    values = [data['total'] for data in monthly_sales_data]
+
+    return jsonify({
+        "labels": labels,
+        "values": values
+    })
+
+
+@app.route('/api/yearly-sales-data', methods=['GET'])
+def get_yearly_sales_data():
+    con = get_con()
+    cursor = con.cursor(dictionary=True)
+
+    today = datetime.today().date()
+    past_years = today - timedelta(days=5*365)
+
+    # Get yearly sales data for the past 5 years
+    cursor.execute("SELECT YEAR(date) AS year, SUM(total_price) AS total FROM orders WHERE DATE(date) BETWEEN %s AND %s GROUP BY YEAR(date)", (past_years, today))
+    yearly_sales_data = cursor.fetchall()
+
+    con.close()
+
+    labels = [data['year'] for data in yearly_sales_data]
+    values = [data['total'] for data in yearly_sales_data]
+
+    return jsonify({
+        "labels": labels,
+        "values": values
+    })
+
 
 if __name__ == '__main__':
     app.run(debug=True)

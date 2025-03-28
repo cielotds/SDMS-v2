@@ -1,3 +1,5 @@
+body { font-family: Arial, sans-serif; background-color: #f8fafc; }
+
 .sidebar {
     width: 20%;
     background-color: #1E3A8A; /* Tailwind's blue-700 */
@@ -48,43 +50,32 @@
     
 }
 
+.chart-container { width: 80%; margin: auto; }
+.chart-box { background: white; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 8px; }
+.buttons { margin-bottom: 20px; }
 .btn {
-    background-color:transparent; /* Tailwind's cyan-700 */
+    background-color: transparent;
     color: white;
     font-weight: bold;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    margin-left: -1px; /* To avoid double borders */
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-left: 5px;
     transition: background-color 0.3s;
+    border: none;
+    cursor: pointer;
 }
-
 .btnd {
-    background-color:#0E7490; /* Tailwind's cyan-700 */
+    background-color: #0E7490;
     color: white;
-    font-weight: bold;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    margin-left: 15px; /* To avoid double borders */
-    transition: background-color 0.3s;
-    
 }
-
 .btn-active, .btnd-active {
-    background-color: #67E8F9; /* Tailwind's cyan-200 */
-    color: #0E7490; /* Tailwind's cyan-700 */
-    font-weight: bold;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
+    background-color: #67E8F9;
+    color: #0E7490;
 }
-
-
-.btn-rounded {
-    border-radius: 0.5rem 0.5rem 0.5rem 0.5rem; /* Rounded corners */
-}
-
 .btn:hover, .btnd:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Lighten on hover */
+    background-color: rgba(255, 255, 255, 0.1);
 }
+
 
 
 
