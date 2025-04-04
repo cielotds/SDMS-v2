@@ -1,3 +1,5 @@
+body { font-family: Arial, sans-serif; background-color: #f8fafc; }
+
 .sidebar {
     width: 20%;
     background-color: #1E3A8A; /* Tailwind's blue-700 */
@@ -59,10 +61,11 @@
 }
 
 .btnd {
-    background-color:#0E7490; /* Tailwind's cyan-700 */
-    color: white;
+    background-color:#ffffff; /* Tailwind's cyan-700 */
+    color: rgb(70, 183, 217);
     font-weight: bold;
     padding: 0.5rem 1rem;
+    border: #67E8F9;
     border-radius: 0.5rem;
     margin-left: 15px; /* To avoid double borders */
     transition: background-color 0.3s;
@@ -83,7 +86,23 @@
 }
 
 .btn:hover, .btnd:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Lighten on hover */
+    background-color: rgba(255, 255, 255, 0.884); /* Lighten on hover */
+}
+
+.chart-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    grid-gap: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin: 1rem 0; /* Margin around the chart box */
+    
+}
+
+.chart-box {
+    padding: 10px;
 }
 
 

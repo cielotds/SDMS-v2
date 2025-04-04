@@ -36,7 +36,7 @@
         <!-- Main Content -->
         <div class="dashboard">
             <div id="content">
-                <h1 class="text-4xl font-bold text-blue-700 mb-8">Dashboard</h1>
+                <h1>Dashboard</h1>
                 <div class="real-time">
                     <div class="card">
                         <div class="text-lg">Today</div>
@@ -54,39 +54,49 @@
                     </div>
                 </div>
                 
-                <h2 class="text-3xl font-bold text-blue-700 mb-4">Sales</h2>
-                <div class="flex mb-8">
-                    <button class="btnd-active">Daily</button>
-                    <button class="btnd">Weekly</button>
-                    <button class="btnd">Monthly</button>
-                    <button class="btnd btnd-rounded">Yearly</button>
-                </div>
-                <div class="chart">
-                    <canvas id="dailySalesChart"></canvas>
-                </div>
-                <div class="chart" style="display: none;" id="weeklySalesChartContainer">
-                    <canvas id="weeklySalesChart"></canvas>
-                </div>
-                <div class="chart" style="display: none;" id="monthlySalesChartContainer">
-                    <canvas id="monthlySalesChart"></canvas>
-                </div>
-                <div class="chart" style="display: none;" id="yearlySalesChartContainer">
-                    <canvas id="yearlySalesChart"></canvas>
-                </div>
-                <h2 class="text-3xl font-bold text-blue-700 mb-4">Sales by Product</h2>
-                <div class="flex mb-8">
-                    <button class="btnd-active">Daily</button>
-                    <button class="btnd">Weekly</button>
-                    <button class="btnd">Monthly</button>
-                    <button class="btnd btnd-rounded">Yearly</button>
-                </div>
-                <div class="flex justify-between">
-                    <div class="chart">
-                        <canvas id="salesChart"></canvas>
+                
+
+                <h2>Sales Overview</h2>
+                <div class="chart-container">
+                    
+                    <div class="chart-box">
+                        <h3>Daily Sales</h3>
+                        <canvas id="dailySalesChart" ></canvas>
                     </div>
-                    <div class="chart">
-                        <canvas id="salesByProductChart"></canvas>
-                    </div>    
+                    <div class="chart-box">
+                        <h3>Weekly Sales</h3>
+                        <canvas id="weeklySalesChart" ></canvas>
+                    </div>
+                    <div class="chart-box">
+                        <h3>Monthly Sales</h3>
+                        <canvas id="monthlySalesChart" ></canvas>
+                    </div>
+                    <div class="chart-box">
+                        <h3>Yearly Sales</h3>
+                        <canvas id="yearlySalesChart" ></canvas>
+                    </div>
+                </div>
+
+                
+                <h2>Sales by Product</h2>
+                <div class="chart-container">
+                    <div class="chart-box">
+                        <h2>Daily Sales</h2>
+                        <canvas id="dailySalesByProductChart" ></canvas>
+                    </div>
+                    <div class="chart-box">
+                        <h2>Weekly Sales</h2>
+                        <canvas id="weeklySalesByProductChart"></canvas>
+                    </div>
+                    <div class="chart-box">
+                        <h2>Monthly Sales</h2>
+                        <canvas id="monthlySalesByProductChart"></canvas>
+                    </div>
+                    <div class="chart-box">
+                        <h2>Yearly Sales</h2>
+                        <canvas id="yearlySalesByProductChart"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
