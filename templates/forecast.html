@@ -1,64 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Econovision</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="{{ url_for('static', filename='main.js') }}"></script>
-    <script src="{{ url_for('static', filename='fcharts.js') }}"></script>
-    <script src="{{ url_for('static', filename='chatbot.js') }}"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sales Forecast</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{{ url_for('static', filename='forecast.js') }}" defer></script>
 </head>
 <body>
-    <h1 class="text-4xl font-bold text-blue-700 mb-8">Financial Forecast</h1>
-    <h2 class="text-3xl font-bold text-blue-700 mb-4">Predicted Sales</h2>
-    
-    <!-- Buttons for selecting time period -->
-    <div class="flex mb-8">
-        <button class="btnd-active">Daily</button>
-        <button class="btnd">Weekly</button>
-        <button class="btnd">Monthly</button>
-        <button class="btnd btnd-rounded">Yearly</button>
-    </div>
-    
-    <!-- Chart containers for different periods -->
-    <div class="chart">
-        <canvas id="dailySalesChart"></canvas>
-    </div>
-    <div class="chart" style="display: none;" id="weeklySalesChartContainer">
-        <canvas id="weeklySalesChart"></canvas>
-    </div>
-    <div class="chart" style="display: none;" id="monthlySalesChartContainer">
-        <canvas id="monthlySalesChart"></canvas>
-    </div>
-    <div class="chart" style="display: none;" id="yearlySalesChartContainer">
-        <canvas id="yearlySalesChart"></canvas>
-    </div>
+  <div class="container">
+    <h1>Sales Forecast</h1><div class="chart-container">
+  <h3>Daily Forecast</h3>
+  <canvas id="dailyPredictedSalesChart"></canvas>
+</div>
 
-    <!-- FinGenius Section -->
-    <div class="fingenius">
-        <img src="static/images/FinGenius.png" alt="FinGenius Logo" class="logo">
-        <h2 class="text-3xl font-bold text-blue-700 mr-4">FinGenius</h2>
-        <div class="message-box">
-            <p>Welcome to FinGenius! Your financial insights start here.</p>
-        </div>
-        <button id="chatbotBtn" class="btn-chat">Chat with FinGenius</button> <!-- Chat button -->
-    </div>
+<div class="chart-container">
+  <h3>Weekly Forecast</h3>
+  <canvas id="weeklyPredictedSalesChart"></canvas>
+</div>
 
-    <!-- Chatbox (Initially hidden) -->
-    <div id="chatbox" class="chatbox" style="display: none;">
-        <div class="chatbox-header">
-            <img src="static/images/FinGenius.png" alt="FinGenius Logo" class="logo">
-            <h2 class="text-3xl font-bold text-white-700 mr-4 mt-3">FinGenius</h2>
-            <button id="closeChatbox">X</button>
-        </div>
-        <div class="chatbox-body">
-            <p>Welcome! How can I assist you?</p>
-        </div>
-        <input type="text" id="chatInput" placeholder="Type a message..." />
-    </div>
-    
+<div class="chart-container">
+  <h3>Monthly Forecast</h3>
+  <canvas id="monthlyPredictedSalesChart"></canvas>
+</div>
+
+<div class="chart-container">
+  <h3>Yearly Forecast</h3>
+  <canvas id="yearlyPredictedSalesChart"></canvas>
+</div>
+
+  </div>
 </body>
 </html>
