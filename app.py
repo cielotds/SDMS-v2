@@ -1,8 +1,10 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request, send_file
 from datetime import datetime, timedelta
 from ConnectionProvider import get_con
-from flask import Flask, jsonify
-
+from forecast import predict_sales
+from ai_insights import generate_ai_insights
+from fpdf import FPDF
+import os
 
 
 
@@ -256,7 +258,67 @@ def get_yearly_sales_by_product():
         "labels": labels,
         "values": values
     })
+    
+@app.route('/forecast')
+def forecast_page():
+    return render_template('forecast.html')
 
+@app.route('/api/predicted_sales')
+def get_predicted_sales():
+    data = {
+        'daily': predict_sales('D', 7),
+        'weekly': predict_sales('W', 4),
+        'monthly': predict_sales('M', 6),
+        'yearly': predict_sales('Y', 3)
+    }
+    return jsonify(data)
+
+@app.route("/insights")
+def insights():
+    return render_template("insights.html")
+
+@app.route("/get_insight/<date>")
+def get_insight(date):
+    conn = get_con()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM insights_history WHERE insight_date = %s", (date,))
+    data = cursor.fetchone()
+
+    if data:
+        return jsonify({
+            "insight": data['generated_text'],
+            "recommendations": [] # Optional: move product breakdown here if structured
+        })
+    else:
+        # If date is today, generate one
+        today = datetime.today().date()
+        if date == str(today):
+            text = generate_ai_insights()
+            cursor.execute("INSERT INTO insights_history (insight_date, generated_text) VALUES (%s, %s)", (today, text))
+            conn.commit()
+            return jsonify({"insight": text, "recommendations": []})
+        else:
+            return jsonify({}) # No insight available for this date
+
+@app.route("/export-pdf")
+def export_pdf():
+    date = request.args.get("date")
+    conn = get_con()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM insights_history WHERE insight_date = %s", (date,))
+    insight = cursor.fetchone()
+
+    if insight:
+        pdf = FPDF()
+        pdf.add_page()
+        pdf.set_font("Arial", size=12)
+        pdf.cell(200, 10, txt=f"AI Insights for {date}", ln=1, align="C")
+        pdf.multi_cell(0, 10, txt=insight['generated_text'])
+
+        file_path = f"temp_insight_{date}.pdf"
+        pdf.output(file_path)
+        return send_file(file_path, as_attachment=True)
+    return "Insight not found", 404
 
 
 if __name__ == '__main__':

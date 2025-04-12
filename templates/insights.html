@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Insights and Recommendations</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="{{ url_for('static', filename='insights.js') }}" defer></script>
+</head>
+<body>
+  <div class="container">
+    <h1>AI Insights and Recommendations</h1>
+    <p>Insight Date: <span id="insightDate"></span></p>
+
+    <input type="date" id="datePicker" />
+    <button onclick="fetchInsight()">View Insight</button>
+    <button onclick="exportPDF()">Export to PDF</button>
+
+    <div id="insightBox" style="white-space: pre-wrap; margin-top: 20px; background: #f1f1f1; padding: 10px;">
+      Loading...
+    </div>
+  </div>
+</body>
+</html>

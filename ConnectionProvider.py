@@ -8,7 +8,7 @@ def get_con():
             host='localhost',
             database='ghbpython',
             user='root',
-            password='1024'
+            password=''
         )
         if connection.is_connected():
             return connection
