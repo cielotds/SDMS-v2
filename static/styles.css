@@ -1,19 +1,51 @@
 body { font-family: Arial, sans-serif; background-color: #f8fafc; }
 
+.main-container {
+    transition: transform 0.3s ease-in-out;
+    flex: 1;
+    width: 100%;
+}
+
+.main-container.shifted {
+    transform: translateX(250px); /* same width as the sidebar */
+}
+
 .sidebar {
-    width: 20%;
-    background-color: #1E3A8A; /* Tailwind's blue-700 */
-    height: 200vh;
+    width: 250px;
+    background-color: #0E7490;
+    height: 250vh;
     padding: 1rem;
+    position: fixed;
+    top: 0;
+    left: -250px; /* Hide sidebar off-screen */
+    width: 250px;
+    transform: translateX(-250px);
+    transition: transform 0.3s ease-in-out; /* Animation for sliding */
+    z-index: 1000; /* Ensure it is above other content */
+}
+
+/* Show sidebar */
+.sidebar.active {
+    transform: translateX(0);
+}
+
+.wrapper {
+    display: flex;
+    height: 100vh; /* Full height */
+}
+
+/* Button styles */
+#btn {
+    cursor: pointer;
 }
 
 .dashboard {
-    width: 75%;
+    flex: 1;
     padding: 2rem;
 }
 
 .financial_forecast {
-    width: 75%;
+    flex: 1;
     padding: 2rem;
 }
 
@@ -22,7 +54,7 @@ body { font-family: Arial, sans-serif; background-color: #f8fafc; }
     gap: 20px; 
     justify-content: center;
     flex-wrap: wrap;
-    margin: 2rem;
+    margin: 2rem 0;
 }
 
 .card {
@@ -86,7 +118,7 @@ body { font-family: Arial, sans-serif; background-color: #f8fafc; }
 }
 
 .btn:hover, .btnd:hover {
-    background-color: rgba(255, 255, 255, 0.884); /* Lighten on hover */
+    background-color: #67E8F9; 
 }
 
 .chart-container {
@@ -132,7 +164,7 @@ body { font-family: Arial, sans-serif; background-color: #f8fafc; }
 
 
 .btn-chat {
-    background-color: #0078ff; /* Button color */
+    background-color: #0E7490; /* Button color */
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
@@ -142,7 +174,7 @@ body { font-family: Arial, sans-serif; background-color: #f8fafc; }
 }
 
 .btn-chat:hover {
-    background-color: #0056b3; /* Darker shade on hover */
+    background-color: #67E8F9; /* Darker shade on hover */
 }
 
 .chatbox {
@@ -161,7 +193,7 @@ body { font-family: Arial, sans-serif; background-color: #f8fafc; }
     display: flex;
     justify-content: space-between;
     background: transparent;
-    color: #0077B6;
+    color: #0E7490;
     padding: 5px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -182,8 +214,8 @@ body { font-family: Arial, sans-serif; background-color: #f8fafc; }
 /* Chatbot Close Button Styles */
 #closeChatbox {
     background-color: transparent; /* Red background */
-    color: #0077b6; /* White text */
-    border: 2px solid #0077B6; /* Remove default border */
+    color: #0E7490; 
+    border: 2px solid #0E7490; /* Remove default border */
     font-size: 20px; /* Readable font size */
     font-weight: bold; /* Make it stand out */
     padding: 6px 10px; /* Proper padding */
@@ -206,7 +238,7 @@ body { font-family: Arial, sans-serif; background-color: #f8fafc; }
 }
 
 #sendButton { /* Red background */
-    color: #0077b6; /* White text *//* Remove default border */
+    color: #0E7490; /* White text *//* Remove default border */
     font-size: 20px; /* Readable font size */
     font-weight: bold; /* Make it stand out */
     padding: 6px 10px; /* Proper padding */
@@ -221,7 +253,7 @@ body { font-family: Arial, sans-serif; background-color: #f8fafc; }
 }
 
 .fingenius-chat {
-    background-color: #0078ff; /* Button color */
+    background-color: #0E7490; /* Button color */
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
@@ -230,8 +262,38 @@ body { font-family: Arial, sans-serif; background-color: #f8fafc; }
 
 #userMessage {
     background-color: #caf0f8; /* Button color */
-    color: #0077b6;
+    color: #0E7490;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
     margin-left: 10px; /* Space between message box and button */
+}
+
+
+.chatbox-body {
+    height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chatbot-message {
+    background-color: #1E40AF;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px #1E40AF;
+    max-width: 80%;
+    align-self: flex-start; /* Aligns chatbot messages to the left */
+}
+
+.user-message {
+    background-color: #0E7490;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid #0E7490;
+    max-width: 80%;
+    align-self: flex-end; /* Aligns user messages to the right */
 }

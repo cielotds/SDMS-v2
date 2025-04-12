@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Econovision</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+    <script src="{{ url_for('static', filename='fcharts.js') }}"></script>
+    <script src="{{ url_for('static', filename='chatbot.js') }}"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="flex">
+        <div class="fixed top-1 left-4 z-50">
+            <i class="fas fa-bars text-white p-2 rounded cursor-pointer" id="btn" style="background-color: #0E7490;"></i>
+        </div>
+        <div class="main-container transition-all duration-300 ease-in-out flex">   
+<!-- Sidebar -->
+<div class="sidebar p-4" id="sidebar" style="background-color: #0E7490;">
+    <div class="text-white text-lg font-bold mb-8">
+        <div class="flex items-center mb-8">
+            <img src="{{ url_for('static', filename='images/ECONOVISION.png') }}" alt="Logo" class="h-12.5 w-12.5 mr-2">
+        </div>
+        <div class="flex flex-col space-y-4"> 
+            <button id="dashboardBtn" class="flex items-center text-white btn-active"> 
+                <i class="fas fa-home mr-2"></i> 
+                <span>Dashboard</span> 
+            </button> 
+            <button id="forecastBtn" class="flex items-center text-white btn"> 
+                <i class="fas fa-chart-line mr-2"></i> 
+                <span>Financial Forecast</span> 
+            </button> 
+            <a href="/ai-insights" class="AI-InsightsBtn flex items-center text-white btn">
+                <i class="fas fa-robot mr-2"></i>
+                <span>AI Insights</span>
+            </a>
+            
+        </div> 
+    </div>
+</div>
+        <!-- FinGenius Section -->
+        <div class="fingenius">
+            <img src="static/images/FinGenius.png" alt="FinGenius Logo" class="logo">
+            <h2 class="text-3xl font-bold text-blue-700 mr-4" style="color: #0E7490;">FinGenius</h2>
+            <div class="message-box">
+                <p>Welcome to FinGenius! Your financial insights start here.</p>
+            </div>
+            <button id="chatbotBtn" class="btn-chat">Chat with FinGenius</button> <!-- Chat button -->
+        </div>
+    
+        <!-- Chatbox (Initially hidden) -->
+        <div id="chatbox" class="chatbox" style="display: none;">
+            <div class="chatbox-header">
+                <img src="static/images/FinGenius.png" alt="FinGenius Logo" class="logo">
+                <h2 class="text-3xl font-bold text-white-700 mr-4 mt-3">FinGenius</h2>
+                <button id="closeChatbox">X</button>
+            </div>
+            <div class="chatbox-body">
+                <p>Welcome! How can I assist you?</p>
+            </div>
+            <input type="text" id="chatInput" placeholder="Type a message..." />
+        </div>
+</body>
+</html>
