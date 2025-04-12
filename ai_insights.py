@@ -4,7 +4,8 @@ import numpy as np
 from ConnectionProvider import get_con 
 from datetime import datetime, timedelta
 
-openai.api_key = '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'
+openai.api_key = ''
+# Alisin ang key kapag iccommit
 
 def calculate_cv(data):
     return np.std(data) / np.mean(data) if np.mean(data) != 0 else 0

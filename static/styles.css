@@ -138,7 +138,9 @@ body { font-family: Arial, sans-serif; background-color: #f8fafc; }
 }
 
 canvas {
-    width: 100% !important; max-width: 100%; height: 400px !important;
+    width: 100%; 
+    max-width: 100%; 
+    height: 400px;
 }
 
 .fingenius {
@@ -157,10 +159,13 @@ canvas {
 }
 
 .message-box {
-    background-color: #83d7e6; /* Tailwind's cyan-500 */
-    color: #0E7490; /* Tailwind's cyan-700 */
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: #0a0a0a; 
     padding: 1rem;
     border-radius: 0.5rem;
+    margin: 2rem;
     flex-grow: 1; /* Allow the message box to take up remaining space */
 }
 

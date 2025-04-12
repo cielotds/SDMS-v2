@@ -273,9 +273,9 @@ def get_predicted_sales():
     }
     return jsonify(data)
 
-@app.route("/insights")
-def insights():
-    return render_template("insights.html")
+@app.route('/insights')
+def insights_page():
+    return render_template('insights.html')
 
 @app.route("/get_insight/<date>")
 def get_insight(date):

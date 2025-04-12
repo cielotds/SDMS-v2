@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Define button variables
     const dashboardBtn = document.getElementById('dashboardBtn');
     const forecastBtn = document.getElementById('forecastBtn');
+    const insightsBtn = document.getElementById('insightsBtn'); 
     
-    const chatbotBtn = document.getElementById('chatbotBtn');
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('btn');
     const mainContainer = document.querySelector('.main-container');
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById("dashboardBtn").addEventListener("click", closeSidebar);
     document.getElementById("forecastBtn").addEventListener("click", closeSidebar);
-    document.querySelector(".AI-InsightsBtn").addEventListener("click", closeSidebar);
+    document.getElementById("insightsBtn").addEventListener("click", closeSidebar);
 
     // Toggle sidebar when menu button is clicked
     toggleBtn.addEventListener('click', function () {
@@ -47,7 +47,37 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to render dashboard content
     function renderDashboard() {
         document.getElementById('content').innerHTML = `
-               <div class="dashboard" id="mainContent">
+     <div class="flex">
+        <div class="fixed top-1 left-4 z-50">
+            <i class="fas fa-bars text-white p-2 rounded cursor-pointer" id="btn" style="background-color: #0E7490;"></i>
+        </div>
+        <div class="main-container transition-all duration-300 ease-in-out flex">   
+<!-- Sidebar -->
+<div class="sidebar p-4" id="sidebar" style="background-color: #0E7490;">
+    <div class="text-white text-lg font-bold mb-8">
+        <div class="flex items-center mb-8">
+            <img src="{{ url_for('static', filename='images/ECONOVISION.png') }}" alt="Logo" class="h-12.5 w-12.5 mr-2">
+        </div>
+        <div class="flex flex-col space-y-4"> 
+            <button id="dashboardBtn" class="flex items-center text-white btn-active"> 
+                <i class="fas fa-home mr-2"></i> 
+                <span>Dashboard</span> 
+            </button> 
+            <button id="forecastBtn" class="flex items-center text-white btn"> 
+                <i class="fas fa-chart-line mr-2"></i> 
+                <span>Financial Forecast</span> 
+            </button>
+            <button id="insightsBtn" class="flex items-center text-white btn"> 
+                <i class="fas fa-robot mr-2"></i>
+                <span>AI Insights</span> 
+            </button> 
+            
+            
+        </div> 
+    </div>
+</div>
+        <!-- Main Content -->
+        <div class="dashboard" id="mainContent">
             <div id="content">         
                 <h1 class="text-4xl font-bold mb-8" style="color: #0E7490;">Dashboard</h1>
                 <div class="real-time">
@@ -119,87 +149,56 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to render financial forecast content
     function renderForecast() {
         document.getElementById('content').innerHTML = `
-    <h1 class="text-4xl font-bold mb-8" style="color: #0E7490;">Financial Forecast</h1>
-    <h2 class="text-3xl font-bold text-blue-700 mb-4" style="color: #0E7490;">Predicted Sales</h2>
-            <div class="flex mb-8">
-                <button class="btnd-active">Daily</button>
-                <button class="btnd">Weekly</button>
-                <button class="btnd">Monthly</button>
-                <button class="btnd btnd-rounded">Yearly</button>
-            </div>
-   
-            <div class="fingenius">
-                <img src="static/images/FinGenius.png" alt="FinGenius Logo" class="logo"> <!-- Replace with your logo path -->
-                <h2 class="text-3xl font-bold text-blue-700 mr-4" style="color: #0E7490;">FinGenius</h2>
-                <div class="message-box">
-                    <p>Welcome to FinGenius! Your financial insights start here.</p>
-                </div>
-                <button id="chatbotBtn" class="btn-chat">Chat with FinGenius</button> <!-- Chat button -->
-            </div>
+<h1 class="text-4xl font-bold text-blue-700 mb-8">Financial Forecast</h1>
+    
+    <div class="chart-container">
+
+      <div class="chart-box">
+      <h3>Daily Forecast</h3>
+      <canvas id="dailyPredictedSalesChart"></canvas>
+    </div>
+    
+    <div class="chart-box">
+      <h3>Weekly Forecast</h3>
+      <canvas id="weeklyPredictedSalesChart"></canvas>
+    </div>
+    
+    <div class="chart-box">
+      <h3>Monthly Forecast</h3>
+      <canvas id="monthlyPredictedSalesChart"></canvas>
+    </div>
+    
+    <div class="chart-box">
+      <h3>Yearly Forecast</h3>
+      <canvas id="yearlyPredictedSalesChart"></canvas>
+    </div>
+    
+    </div>
         `;
+    }  
     
-        // Now attach the event listener for the chatbot button after it's rendered
-        const chatbotBtn = document.getElementById("chatbotBtn");
+    function renderInsights() {
+        document.getElementById('content').innerHTML = `
+    <img src="static/images/FinGenius.png" alt="FinGenius Logo" class="logo">
+  <h2 class="text-3xl font-bold text-blue-700 mr-4" style="color: #0E7490;">FinGenius</h2>
+  <div class="container">
+    <h1>AI Insights and Recommendations</h1>
+    <p>Insight Date: <span id="insightDate"></span></p>
+
+    <input type="date" id="datePicker" />
+    <button onclick="fetchInsight()">View Insight</button>
+    <button onclick="exportPDF()">Export to PDF</button>
+
+    <div class="message-box">
+      <p>Hello, I'm FinGenius! Your business insights start here.</p>
+    <div id="insightBox">
+   
+    </div>
+  </div>
+  </div>
+        `;
+    } 
     
-        // Ensure the button exists before adding event listener
-        if (chatbotBtn) {
-            chatbotBtn.addEventListener('click', function() {
-                // Call createChatbox function when the button is clicked
-                createChatbox();
-            });
-        }
-    }    
-    
-    // Function to create the chatbox
-        function createChatbox() {
-            if (!document.getElementById('chatboxContainer')) {
-                let chatbox = document.createElement('div');
-                chatbox.id = 'chatboxContainer';
-                chatbox.innerHTML = `
-                    <div id="chatbox" class="chatbox">
-                        <div class="chatbox-header">
-                            <img src="static/images/FinGenius.png" alt="FinGenius Logo" class="logo">
-                            <h2 class="text-3xl font-bold text-white-700 mr-20 mt-2">FinGenius</h2>
-                            <button id="closeChatbox">X</button>
-                        </div>
-                        <div class="chatbox-body">
-                            <p>Welcome! How can I assist you?</p>
-                        </div>
-                        <input type="text" id="chatInput" placeholder="Type a message..." />
-                        <button id="sendButton">Send</button> <!-- Added Send button -->
-                    </div>
-                `;
-                document.body.appendChild(chatbox);
-    
-                // Close button functionality
-                document.getElementById('closeChatbox').addEventListener('click', function() {
-                    document.getElementById('chatboxContainer').remove();
-                });
-    
-                // Send button functionality
-                document.getElementById('sendButton').addEventListener('click', function() {
-                    let chatInput = document.getElementById('chatInput');
-                    let chatboxBody = document.querySelector('.chatbox-body');
-                    let userMessage = chatInput.value;
-                    chatInput.value = ''; // Clear input field after sending
-    
-                    // Display user message
-                    let userMessageElement = document.createElement('p');
-                    userMessageElement.className = 'user-message';
-                    userMessageElement.innerHTML = userMessage;
-                    chatboxBody.appendChild(userMessageElement);
-    
-                    // Display chatbot response (Placeholder for now)
-                    let chatbotResponse = getChatbotResponse(userMessage);
-                    let chatbotResponseElement = document.createElement('p');
-                    chatbotResponseElement.className = 'chatbot-response';
-                    chatbotResponseElement.innerHTML = chatbotResponse;
-                    chatboxBody.appendChild(chatbotResponseElement);
-                });
-            }
-        }
-    
-        
 
     // Event listeners for button clicks
     dashboardBtn.addEventListener('click', function() {
@@ -211,7 +210,10 @@ document.addEventListener('DOMContentLoaded', function() {
         setActiveButton(forecastBtn);
         renderForecast();
     });
-
+    insightsBtn.addEventListener('click', function() {
+        setActiveButton(insightsBtn);
+        renderInsights();
+    });
     
 
     // Event listener for chatbot button

@@ -9,6 +9,10 @@
   <script src="{{ url_for('static', filename='insights.js') }}" defer></script>
 </head>
 <body>
+  <div class="fingenius">
+  <img src="static/images/FinGenius.png" alt="FinGenius Logo" class="logo">
+  <h2 class="text-3xl font-bold text-blue-700 mr-4" style="color: #0E7490;">FinGenius</h2>
+  </div>
   <div class="container">
     <h1>AI Insights and Recommendations</h1>
     <p>Insight Date: <span id="insightDate"></span></p>
@@ -17,9 +21,12 @@
     <button onclick="fetchInsight()">View Insight</button>
     <button onclick="exportPDF()">Export to PDF</button>
 
-    <div id="insightBox" style="white-space: pre-wrap; margin-top: 20px; background: #f1f1f1; padding: 10px;">
-      Loading...
+    <div class="message-box">
+      <p>Hello, I'm FinGenius! Your business insights start here.</p>
+    <div id="insightBox">
+   
     </div>
   </div>
+</div>
 </body>
 </html>
