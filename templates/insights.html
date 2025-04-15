@@ -5,28 +5,71 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AI Insights and Recommendations</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="{{ url_for('static', filename='insights.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='insights.js') }}"></script>
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
 </head>
-<body>
-  <div class="fingenius">
-  <img src="static/images/FinGenius.png" alt="FinGenius Logo" class="logo">
-  <h2 class="text-3xl font-bold text-blue-700 mr-4" style="color: #0E7490;">FinGenius</h2>
+<body class="bg-gray-100">
+  <div class="flex">
+    <div class="fixed top-1 left-4 z-50">
+        <i class="fas fa-bars text-white p-2 rounded cursor-pointer" id="btn" style="background-color: #0E7490;"></i>
+    </div>
+    <div class="main-container transition-all duration-300 ease-in-out flex">   
+  <!-- Sidebar -->
+  <div class="sidebar p-4" id="sidebar" style="background-color: #0E7490;">
+    <div class="text-white text-lg font-bold mb-8">
+      <div class="flex items-center mb-8">
+        <img src="{{ url_for('static', filename='images/ECONOVISION.png') }}" alt="Logo" class="h-12.5 w-12.5 mr-2">
+    </div>
+      <div class="flex flex-col space-y-4"> 
+        <a href="{{ url_for('home') }}" class="flex items-center text-white btn hover:bg-cyan-700 p-2 rounded"> 
+          <i class="fas fa-home mr-2"></i> 
+          <span>Dashboard</span> 
+        </a>
+        <a href="{{ url_for('forecast_page') }}" class="flex items-center text-white btn hover:bg-cyan-700 p-2 rounded"> 
+          <i class="fas fa-chart-line mr-2"></i> 
+          <span>Financial Forecast</span> 
+        </a>
+        <a href="{{ url_for('insights_page') }}" class="flex items-center text-white btn-active hover:bg-cyan-700 p-2 rounded"> 
+          <i class="fas fa-robot mr-2"></i>
+          <span>AI Insights</span> 
+        </a>
+      </div>
+    </div>
   </div>
-  <div class="container">
-    <h1>AI Insights and Recommendations</h1>
-    <p>Insight Date: <span id="insightDate"></span></p>
 
-    <input type="date" id="datePicker" />
-    <button onclick="fetchInsight()">View Insight</button>
-    <button onclick="exportPDF()">Export to PDF</button>
+  <!-- Main Content -->
+  <div class="p-8" id="mainContent">
+    <div class="fingenius mb-6">
+      <img src="static/images/FinGenius.png" alt="FinGenius Logo" class="logo">
+      <h2 class="text-3xl font-bold" style="color: #0E7490;">FinGenius</h2>
+    </div>
+    
+    <h1 class="text-4xl font-bold mb-4" style="color: #0E7490;">AI Insights and Recommendations</h1>
+    <p class="mb-4">Insight Date: <span id="insightDate"></span></p>
 
-    <div class="message-box">
-      <p>Hello, I'm FinGenius! Your business insights start here.</p>
-    <div id="insightBox">
-   
+    <div class="flex space-x-4 mb-4">
+      <input type="date" id="datePicker" class="border px-4 py-2 rounded"/>
+      <button onclick="fetchInsight()" class="bg-cyan-700 text-white px-4 py-2 rounded hover:bg-cyan-800">
+        Generate Insight
+      </button>
+    </div>
+
+    <div class="message-box bg-white p-4 rounded shadow mb-4 min-h-64">
+      <p class="mb-2">Hello, I'm FinGenius! Select a date and click "Generate Insight" to get started.</p>
+      <div id="insightBox" class="whitespace-pre-line"></div>
+    </div>
+
+    <div class="flex justify-end">
+      <button onclick="exportPDF()" class="bg-cyan-700 text-white px-4 py-2 rounded hover:bg-cyan-800">
+        <i class="fas fa-file-pdf mr-2"></i>Export to PDF
+      </button>
     </div>
   </div>
 </div>
+
+
 </body>
 </html>

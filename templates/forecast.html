@@ -1,38 +1,70 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sales Forecast</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="{{ url_for('static', filename='forecast.js') }}"></script>
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
 </head>
-<body>
-    <h1 class="text-4xl font-bold text-blue-700 mb-8">Financial Forecast</h1>
-    
-    <div class="chart-container">
+<body class="bg-gray-100">
+  <div class="flex">
+    <div class="fixed top-1 left-4 z-50">
+      <i class="fas fa-bars text-white p-2 rounded cursor-pointer" id="btn" style="background-color: #0E7490;"></i>
+    </div>
+    <div class="main-container transition-all duration-300 ease-in-out flex">   
 
-      <div class="chart-box">
-      <h3>Daily Forecast</h3>
+<!-- Sidebar -->
+<div class="sidebar p-4" id="sidebar" style="background-color: #0E7490;">
+  <div class="text-white text-lg font-bold mb-8">
+    <div class="flex items-center mb-8">
+      <img src="{{ url_for('static', filename='images/ECONOVISION.png') }}" alt="Logo" class="h-12.5 w-12.5 mr-2">
+    </div>
+    <div class="flex flex-col space-y-4"> 
+      <a href="{{ url_for('home') }}" class="flex items-center text-white btn hover:bg-cyan-700 p-2 rounded"> 
+        <i class="fas fa-home mr-2"></i> 
+        <span>Dashboard</span> 
+      </a>
+      <a href="{{ url_for('forecast_page') }}" class="flex items-center text-white btn-active hover:bg-cyan-700 p-2 rounded"> 
+        <i class="fas fa-chart-line mr-2"></i> 
+        <span>Financial Forecast</span> 
+      </a>
+      <a href="{{ url_for('insights_page') }}" class="flex items-center text-white btn hover:bg-cyan-700 p-2 rounded"> 
+        <i class="fas fa-robot mr-2"></i>
+        <span>AI Insights</span> 
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="p-8" id="mainContent">
+  <h1 class="text-4xl font-bold mb-8" style="color: #0E7490;">Financial Forecast</h1>
+  
+  <div class="chart-container grid gap-8">
+    <div class="chart-box bg-white p-4 rounded shadow">
+      <h3 class="text-xl font-semibold mb-2">Daily Forecast</h3>
       <canvas id="dailyPredictedSalesChart"></canvas>
     </div>
-    
-    <div class="chart-box">
-      <h3>Weekly Forecast</h3>
+    <div class="chart-box bg-white p-4 rounded shadow">
+      <h3 class="text-xl font-semibold mb-2">Weekly Forecast</h3>
       <canvas id="weeklyPredictedSalesChart"></canvas>
     </div>
-    
-    <div class="chart-box">
-      <h3>Monthly Forecast</h3>
+    <div class="chart-box bg-white p-4 rounded shadow">
+      <h3 class="text-xl font-semibold mb-2">Monthly Forecast</h3>
       <canvas id="monthlyPredictedSalesChart"></canvas>
     </div>
-    
-    <div class="chart-box">
-      <h3>Yearly Forecast</h3>
+    <div class="chart-box bg-white p-4 rounded shadow">
+      <h3 class="text-xl font-semibold mb-2">Yearly Forecast</h3>
       <canvas id="yearlyPredictedSalesChart"></canvas>
     </div>
-    
-    </div>
-      
-    </body>
+  </div>
+</div>
+</div>
+</div>
+</body>
 </html>

@@ -18,7 +18,7 @@ function drawLineChart(canvasId, data, label) {
             responsive: true,
             scales: {
                 y: {
-                    beginAtZero: false
+                    beginAtZero: true
                 }
             }
         }

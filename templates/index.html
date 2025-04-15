@@ -25,21 +25,19 @@
             <img src="{{ url_for('static', filename='images/ECONOVISION.png') }}" alt="Logo" class="h-12.5 w-12.5 mr-2">
         </div>
         <div class="flex flex-col space-y-4"> 
-            <button id="dashboardBtn" class="flex items-center text-white btn-active"> 
+            <a href="{{ url_for('home') }}" class="flex items-center text-white btn-active hover:bg-cyan-700 p-2 rounded"> 
                 <i class="fas fa-home mr-2"></i> 
                 <span>Dashboard</span> 
-            </button> 
-            <button id="forecastBtn" class="flex items-center text-white btn"> 
+            </a>
+            <a href="{{ url_for('forecast_page') }}" class="flex items-center text-white btn hover:bg-cyan-700 p-2 rounded"> 
                 <i class="fas fa-chart-line mr-2"></i> 
                 <span>Financial Forecast</span> 
-            </button>
-            <button id="insightsBtn" class="flex items-center text-white btn"> 
+            </a>
+            <a href="{{ url_for('insights_page') }}" class="flex items-center text-white btn hover:bg-cyan-700 p-2 rounded"> 
                 <i class="fas fa-robot mr-2"></i>
                 <span>AI Insights</span> 
-            </button> 
-            
-            
-        </div> 
+            </a>
+        </div>
     </div>
 </div>
         <!-- Main Content -->

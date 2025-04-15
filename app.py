@@ -1,8 +1,11 @@
+from decimal import Decimal
 from flask import Flask, render_template, jsonify, request, send_file
 from datetime import datetime, timedelta
 from ConnectionProvider import get_con
 from forecast import predict_sales
 from ai_insights import generate_ai_insights
+from collections import defaultdict
+import calendar
 from fpdf import FPDF
 import os
 
@@ -57,16 +60,24 @@ def get_daily_sales_data():
     cursor = con.cursor(dictionary=True)
 
     today = datetime.today().date()
-    past_week = today - timedelta(days=7)
+    past_week = today - timedelta(days=6)
 
-    # Get daily sales data for the past 7 days
-    cursor.execute("SELECT DATE(date) AS date, SUM(total_price) AS total FROM orders WHERE DATE(date) BETWEEN %s AND %s GROUP BY DATE(date)", (past_week, today))
-    daily_sales_data = cursor.fetchall()
+    # Generate all dates
+    date_list = [(past_week + timedelta(days=i)) for i in range(7)]
 
+    cursor.execute("""
+        SELECT DATE(date) AS date, SUM(total_price) AS total 
+        FROM orders 
+        WHERE DATE(date) BETWEEN %s AND %s 
+        GROUP BY DATE(date)
+    """, (past_week, today))
+    raw_data = cursor.fetchall()
     con.close()
 
-    labels = [data['date'].strftime('%Y-%m-%d') for data in daily_sales_data]
-    values = [data['total'] for data in daily_sales_data]
+    sales_dict = {data['date']: data['total'] for data in raw_data}
+
+    labels = [d.strftime('%Y-%m-%d') for d in date_list]
+    values = [sales_dict.get(d, 0) for d in date_list]
 
     return jsonify({
         "labels": labels,
@@ -82,20 +93,61 @@ def get_weekly_sales_data():
     today = datetime.today().date()
     past_month = today - timedelta(days=30)
 
-    # Get weekly sales data for the past 30 days
-    cursor.execute("SELECT WEEK(date) AS week, MIN(date) AS start_date, MAX(date) AS end_date, SUM(total_price) AS total FROM orders WHERE DATE(date) BETWEEN %s AND %s GROUP BY WEEK(date)", (past_month, today))
-    weekly_sales_data = cursor.fetchall()
+    # Generate weekly ranges
+    week_ranges = []
+    current = past_month
+    while current <= today:
+        week_start = current - timedelta(days=current.weekday())  # Monday
+        week_end = week_start + timedelta(days=6)  # Sunday
+        if week_end > today:
+            week_end = today
+        label = f"{week_start.strftime('%Y/%m/%d')} - {week_end.strftime('%Y/%m/%d')}"
+        week_ranges.append((week_start, week_end, label))
+        current = week_end + timedelta(days=1)
 
+    # Get weekly sales
+    cursor.execute("""
+        SELECT 
+            MIN(DATE(date)) AS start_date, 
+            MAX(DATE(date)) AS end_date, 
+            SUM(total_price) AS total 
+        FROM orders 
+        WHERE DATE(date) BETWEEN %s AND %s 
+        GROUP BY YEAR(date), WEEK(date, 3)
+    """, (past_month, today))
+    raw_data = cursor.fetchall()
+    print("Raw Data:", raw_data)  # Debugging line
     con.close()
 
-    labels = [f"{data['start_date'].strftime('%Y/%m/%d')} - {data['end_date'].strftime('%Y/%m/%d')}" for data in weekly_sales_data]
-    values = [data['total'] for data in weekly_sales_data]
+    # Create totals by range
+    totals_by_range = {}
+    for row in raw_data:
+        # Get the start of the week for the sales date
+        week_start = row['start_date'] - timedelta(days=row['start_date'].weekday())  # Get the start of the week (Monday)
+        week_end = week_start + timedelta(days=6)  # Get the end of the week (Sunday)
+        week_label = f"{week_start.strftime('%Y/%m/%d')} - {week_end.strftime('%Y/%m/%d')}"
+        
+        # Debugging: Print the week label and total
+        print(f"Week Label: {week_label}, Total: {row['total']}")
+
+        # Aggregate totals for the week
+        if week_label in totals_by_range:
+            totals_by_range[week_label] += row['total']
+        else:
+            totals_by_range[week_label] = row['total']
+
+    # Prepare labels and values for the chart
+    labels = []
+    values = []
+    for _, _, label in week_ranges:
+        labels.append(label)
+        # Convert Decimal to float or int
+        values.append(float(totals_by_range.get(label, 0)))  # Use float() to convert to a number
 
     return jsonify({
         "labels": labels,
         "values": values
     })
-
 
 @app.route('/api/monthly-sales-data', methods=['GET'])
 def get_monthly_sales_data():
@@ -103,21 +155,34 @@ def get_monthly_sales_data():
     cursor = con.cursor(dictionary=True)
 
     today = datetime.today().date()
-    past_year = today - timedelta(days=365)
+    past_year = today.replace(day=1) - timedelta(days=11*30)
 
-    # Get monthly sales data for the past 365 days
-    cursor.execute("SELECT MONTH(date) AS month, YEAR(date) AS year, SUM(total_price) AS total FROM orders WHERE DATE(date) BETWEEN %s AND %s GROUP BY YEAR(date), MONTH(date)", (past_year, today))
-    monthly_sales_data = cursor.fetchall()
+    # Build list of months
+    months = []
+    current = past_year
+    for _ in range(12):
+        months.append((current.year, current.month))
+        if current.month == 12:
+            current = current.replace(year=current.year + 1, month=1)
+        else:
+            current = current.replace(month=current.month + 1)
 
+    # Get monthly sales
+    cursor.execute("""
+        SELECT MONTH(date) AS month, YEAR(date) AS year, SUM(total_price) AS total 
+        FROM orders 
+        WHERE DATE(date) BETWEEN %s AND %s 
+        GROUP BY YEAR(date), MONTH(date)
+    """, (past_year, today))
+    raw_data = cursor.fetchall()
     con.close()
 
-    month_names = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    ]
+    totals = defaultdict(float)
+    for row in raw_data:
+        totals[(row['year'], row['month'])] = row['total']
 
-    labels = [f"{month_names[data['month'] - 1]}" for data in monthly_sales_data]
-    values = [data['total'] for data in monthly_sales_data]
+    labels = [calendar.month_name[month] for _, month in months]
+    values = [totals.get((year, month), 0) for year, month in months]
 
     return jsonify({
         "labels": labels,
@@ -130,17 +195,23 @@ def get_yearly_sales_data():
     con = get_con()
     cursor = con.cursor(dictionary=True)
 
-    today = datetime.today().date()
-    past_years = today - timedelta(days=5*365)
+    current_year = datetime.today().year
+    past_year = current_year - 4
+    years = list(range(past_year, current_year + 1))
 
-    # Get yearly sales data for the past 5 years
-    cursor.execute("SELECT YEAR(date) AS year, SUM(total_price) AS total FROM orders WHERE DATE(date) BETWEEN %s AND %s GROUP BY YEAR(date)", (past_years, today))
-    yearly_sales_data = cursor.fetchall()
-
+    cursor.execute("""
+        SELECT YEAR(date) AS year, SUM(total_price) AS total 
+        FROM orders 
+        WHERE YEAR(date) BETWEEN %s AND %s 
+        GROUP BY YEAR(date)
+    """, (past_year, current_year))
+    raw_data = cursor.fetchall()
     con.close()
 
-    labels = [data['year'] for data in yearly_sales_data]
-    values = [data['total'] for data in yearly_sales_data]
+    sales_by_year = {row['year']: row['total'] for row in raw_data}
+
+    labels = [str(year) for year in years]
+    values = [sales_by_year.get(year, 0) for year in years]
 
     return jsonify({
         "labels": labels,
@@ -277,48 +348,11 @@ def get_predicted_sales():
 def insights_page():
     return render_template('insights.html')
 
-@app.route("/get_insight/<date>")
-def get_insight(date):
-    conn = get_con()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM insights_history WHERE insight_date = %s", (date,))
-    data = cursor.fetchone()
-
-    if data:
-        return jsonify({
-            "insight": data['generated_text'],
-            "recommendations": [] # Optional: move product breakdown here if structured
-        })
-    else:
-        # If date is today, generate one
-        today = datetime.today().date()
-        if date == str(today):
-            text = generate_ai_insights()
-            cursor.execute("INSERT INTO insights_history (insight_date, generated_text) VALUES (%s, %s)", (today, text))
-            conn.commit()
-            return jsonify({"insight": text, "recommendations": []})
-        else:
-            return jsonify({}) # No insight available for this date
-
-@app.route("/export-pdf")
-def export_pdf():
-    date = request.args.get("date")
-    conn = get_con()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM insights_history WHERE insight_date = %s", (date,))
-    insight = cursor.fetchone()
-
-    if insight:
-        pdf = FPDF()
-        pdf.add_page()
-        pdf.set_font("Arial", size=12)
-        pdf.cell(200, 10, txt=f"AI Insights for {date}", ln=1, align="C")
-        pdf.multi_cell(0, 10, txt=insight['generated_text'])
-
-        file_path = f"temp_insight_{date}.pdf"
-        pdf.output(file_path)
-        return send_file(file_path, as_attachment=True)
-    return "Insight not found", 404
+@app.route('/get_insight')
+def get_insight():
+    date = request.args.get('date')
+    insight_data = generate_ai_insights(date)
+    return jsonify(insight_data)
 
 
 if __name__ == '__main__':
