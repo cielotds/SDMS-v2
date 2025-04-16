@@ -52,7 +52,7 @@ def generate_ai_insights(selected_date=None):
 
         client = OpenAI(
             base_url="https://openrouter.ai/api/v1",
-            api_key="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",
+            api_key="",
         )
 
         completion = client.chat.completions.create(
