@@ -4,7 +4,7 @@ body { font-family: Arial, sans-serif; background-color: #f8fafc; }
     transition: transform 0.3s ease-in-out;
     flex: 1;
     width: 100%;
-    padding: 2rem;
+    padding: 1rem;
 }
 
 .main-container.shifted {
@@ -147,7 +147,7 @@ a {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 20px;
-    margin: 1rem 0; /* Margin around the chart box */
+    margin: 1rem 0 2rem 0; /* Margin around the chart box */
     
 }
 
@@ -165,9 +165,9 @@ canvas {
     display: flex;
     align-items: center; /* Center items vertically */
     background-color: transparent; /* Tailwind's blue-700 */
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     border-radius: 0.5rem;
-    margin: 2rem; /* Margin around the FInGenius box */
+    
     color: #0E7490; /* Text color */
 }
 
@@ -177,14 +177,17 @@ canvas {
 }
 
 .main-content {
-      
+    
     width: calc(100% - 250px);
-
+    padding: 1rem;
   }
-  .message-box {
-    height: 400px;
+  
+.message-box {
+    height: 50vh;            /* 50% of the viewport height */
+    max-height: 600px;       /* Cap the max height */
     overflow-y: auto;
     position: relative;
   }
-
+  
+  
 

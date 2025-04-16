@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const toggleBtn = document.getElementById('btn');
     const mainContainer = document.querySelector('.main-container');
     
-    const chatbotBtn = document.getElementById('chatbotBtn'); // Assuming this exists
 
     // Navigation functions
     const closeSidebar = () => {

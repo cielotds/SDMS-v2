@@ -13,7 +13,7 @@ function fetchData() {
                 const element = document.getElementById(elementId);
                 const value = parseFloat(percentValue); // Ensure it's a number
                 const sign = value >= 0 ? "+" : "";
-                element.textContent = `${sign}${value}`;
+                element.textContent = `${sign}${value}%`;
                 element.className = value >= 0 ? "text-green-700 mt-2" : "text-red-700 mt-2";
             };
 
