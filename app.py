@@ -8,6 +8,7 @@ from collections import defaultdict
 import calendar
 from fpdf import FPDF
 import os
+import json
 
 
 
@@ -94,16 +95,16 @@ def get_weekly_sales_data():
     past_month = today - timedelta(days=30)
 
     # Generate weekly ranges
+    # Generate weekly ranges
     week_ranges = []
     current = past_month
     while current <= today:
         week_start = current - timedelta(days=current.weekday())  # Monday
         week_end = week_start + timedelta(days=6)  # Sunday
-        if week_end > today:
-            week_end = today
         label = f"{week_start.strftime('%Y/%m/%d')} - {week_end.strftime('%Y/%m/%d')}"
         week_ranges.append((week_start, week_end, label))
         current = week_end + timedelta(days=1)
+
 
     # Get weekly sales
     cursor.execute("""
@@ -217,6 +218,8 @@ def get_yearly_sales_data():
         "labels": labels,
         "values": values
     })
+
+
     
 @app.route('/api/daily-sales-by-product', methods=['GET'])
 def get_daily_sales_by_product():
@@ -226,24 +229,23 @@ def get_daily_sales_by_product():
     today = datetime.today().date()
     past_week = today - timedelta(days=7)
 
-    # Get daily sales quantity by product for the past 7 days
     cursor.execute("""
-        SELECT p.product_name, SUM(s.sales_quantity) AS total_sales 
+        SELECT 
+            p.product_name, 
+            SUM(s.sales_quantity) AS total_sales
         FROM sales s
         JOIN products p ON s.product_id = p.product_id
-        WHERE DATE(s.sale_date) BETWEEN %s AND %s 
-        GROUP BY p.product_name;
+        WHERE DATE(s.sale_date) BETWEEN %s AND %s
+        GROUP BY p.product_name
+        ORDER BY total_sales DESC
     """, (past_week, today))
-    daily_sales_data = cursor.fetchall()
-
+    
+    sales_data = cursor.fetchall()
     con.close()
 
-    labels = [data['product_name'] for data in daily_sales_data]
-    values = [data['total_sales'] for data in daily_sales_data]
-
     return jsonify({
-        "labels": labels,
-        "values": values
+        "labels": [data['product_name'] for data in sales_data],
+        "values": [data['total_sales'] for data in sales_data]
     })
 
 @app.route('/api/weekly-sales-by-product', methods=['GET'])
@@ -254,24 +256,23 @@ def get_weekly_sales_by_product():
     today = datetime.today().date()
     past_month = today - timedelta(days=30)
 
-    # Get weekly sales quantity by product for the past 30 days
     cursor.execute("""
-        SELECT p.product_name, SUM(s.sales_quantity) AS total_sales 
+        SELECT 
+            p.product_name, 
+            SUM(s.sales_quantity) AS total_sales
         FROM sales s
         JOIN products p ON s.product_id = p.product_id
-        WHERE DATE(s.sale_date) BETWEEN %s AND %s 
-        GROUP BY p.product_name, WEEK(s.sale_date);
+        WHERE DATE(s.sale_date) BETWEEN %s AND %s
+        GROUP BY p.product_name, WEEK(s.sale_date)
+        ORDER BY total_sales DESC
     """, (past_month, today))
-    weekly_sales_data = cursor.fetchall()
-
+    
+    sales_data = cursor.fetchall()
     con.close()
 
-    labels = [data['product_name'] for data in weekly_sales_data]
-    values = [data['total_sales'] for data in weekly_sales_data]
-
     return jsonify({
-        "labels": labels,
-        "values": values
+        "labels": [data['product_name'] for data in sales_data],
+        "values": [data['total_sales'] for data in sales_data]
     })
 
 @app.route('/api/monthly-sales-by-product', methods=['GET'])
@@ -282,24 +283,23 @@ def get_monthly_sales_by_product():
     today = datetime.today().date()
     past_year = today - timedelta(days=365)
 
-    # Get monthly sales quantity by product for the past 12 months
     cursor.execute("""
-        SELECT p.product_name, SUM(s.sales_quantity) AS total_sales 
+        SELECT 
+            p.product_name, 
+            SUM(s.sales_quantity) AS total_sales
         FROM sales s
         JOIN products p ON s.product_id = p.product_id
-        WHERE DATE(s.sale_date) BETWEEN %s AND %s 
-        GROUP BY p.product_name, MONTH(s.sale_date);
+        WHERE DATE(s.sale_date) BETWEEN %s AND %s
+        GROUP BY p.product_name, MONTH(s.sale_date)
+        ORDER BY total_sales DESC
     """, (past_year, today))
-    monthly_sales_data = cursor.fetchall()
-
+    
+    sales_data = cursor.fetchall()
     con.close()
 
-    labels = [data['product_name'] for data in monthly_sales_data]
-    values = [data['total_sales'] for data in monthly_sales_data]
-
     return jsonify({
-        "labels": labels,
-        "values": values
+        "labels": [data['product_name'] for data in sales_data],
+        "values": [data['total_sales'] for data in sales_data]
     })
 
 @app.route('/api/yearly-sales-by-product', methods=['GET'])
@@ -310,24 +310,23 @@ def get_yearly_sales_by_product():
     today = datetime.today().date()
     past_years = today - timedelta(days=5*365)
 
-    # Get yearly sales quantity by product for the past 5 years
     cursor.execute("""
-        SELECT p.product_name, SUM(s.sales_quantity) AS total_sales 
+        SELECT 
+            p.product_name, 
+            SUM(s.sales_quantity) AS total_sales
         FROM sales s
         JOIN products p ON s.product_id = p.product_id
-        WHERE DATE(s.sale_date) BETWEEN %s AND %s 
-        GROUP BY p.product_name, YEAR(s.sale_date);
+        WHERE DATE(s.sale_date) BETWEEN %s AND %s
+        GROUP BY p.product_name, YEAR(s.sale_date)
+        ORDER BY total_sales DESC
     """, (past_years, today))
-    yearly_sales_data = cursor.fetchall()
-
+    
+    sales_data = cursor.fetchall()
     con.close()
 
-    labels = [data['product_name'] for data in yearly_sales_data]
-    values = [data['total_sales'] for data in yearly_sales_data]
-
     return jsonify({
-        "labels": labels,
-        "values": values
+        "labels": [data['product_name'] for data in sales_data],
+        "values": [data['total_sales'] for data in sales_data]
     })
     
 @app.route('/forecast')
